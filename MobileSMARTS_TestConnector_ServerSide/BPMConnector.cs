@@ -1227,6 +1227,7 @@ namespace MobileSMARTS_BPMConnector_ServerSide
                             Integrated Security=False;
                             User ID=Supervisor;
                             Password=msden310";*/
+
             dbConnection = new SqlConnection(connStr);
             /*try
             {
