@@ -1572,12 +1572,12 @@ namespace MobileSMARTS_BPMConnector_ServerSide
                 var documentId = args[0] as string;
                 var documentsList = Cleverence.Warehouse.DocumentStorage.Documents;
                 var currentDocument = documentsList.FindById(documentId);
-                if(currentDocument == null)
-                {
-                    Cleverence.Log.Write("Документ (id: "+ documentId+") в списке DocumentStorage не найден");
-                }
                 try
                 {
+                    if (currentDocument.CurrentItems == null)
+                    {
+                        Cleverence.Log.Write("Нет CurrentItems");
+                    }
                     var productsBook = Cleverence.Warehouse.ProductsBook.Products;
                     int countRequest = 0;
                     if (dbConnection.State != System.Data.ConnectionState.Open)
@@ -1721,7 +1721,11 @@ namespace MobileSMARTS_BPMConnector_ServerSide
                             {
                                 currentItem.ProductId = requestId;
                             }
-                            
+
+                            if (dbConnection.State != System.Data.ConnectionState.Open)
+                            {
+                                dbConnection.Open();
+                            }
                             var unloading = "";
                             using (SqlCommand Names = new SqlCommand("select Id from SxWarehouseListInRoute where SxWarehouseId='" + currentDocument.WarehouseId + "' AND SxRouteId='" + documentId + "'", dbConnection))
                             {
