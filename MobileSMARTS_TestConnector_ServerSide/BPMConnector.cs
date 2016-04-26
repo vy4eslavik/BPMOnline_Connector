@@ -492,6 +492,10 @@ namespace MobileSMARTS_BPMConnector_ServerSide
             float weight = 0;
             float volume = 0;
             int i = 0;
+            if (dbConnection.State != System.Data.ConnectionState.Open)
+            {
+                dbConnection.Open();
+            }
             //  Добавляем на отгрузочный лист грузы 
             foreach (var cargo in ShippingCargo)
             {
